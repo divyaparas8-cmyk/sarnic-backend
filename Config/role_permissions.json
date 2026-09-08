@@ -1,0 +1,16 @@
+{
+  "production": [
+    "projects_view",
+    "jobs_view",
+    "jobs_assign",
+    "production_view",
+    "production_update",
+    "timelogs_view"
+  ],
+  "employee": [
+    "projects_view",
+    "jobs_view",
+    "designer_view",
+    "timelogs_view"
+  ]
+}

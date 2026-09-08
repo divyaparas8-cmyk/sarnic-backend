@@ -1,0 +1,13 @@
+Ascii :
+A----> 65
+z----> 90
+
+ A-a = 32
+ upper to lower = ascii + 32
+lower to upper = ascii -32
+a-----> 97
+z-----> 122
+
+space----> 32
+enter----> 10
+@---> 64
