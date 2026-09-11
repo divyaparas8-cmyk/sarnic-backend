@@ -32,15 +32,16 @@ app.use(
   cors({
     origin: (origin, callback) => {
       if (!origin) return callback(null, true);
+      const cleanOrigin = origin.replace(/\/$/, "");
       const allowedOrigins = [
         "http://localhost:5173",
         "http://localhost:5174",
         "https://sarnic-latest-one.netlify.app",
-        "sarnic-latest-one.netlify.app",
         "https://project.phoenix-dezign.com",
-        "https://sarnicss.netlify.app"
+        "https://sarnicss.netlify.app",
+        "https://sarnicc.netlify.app"
       ];
-      if (allowedOrigins.includes(origin) || origin === "null" || origin.startsWith("file://")) {
+      if (allowedOrigins.includes(cleanOrigin) || origin === "null" || origin.startsWith("file://")) {
         return callback(null, true);
       }
       return callback(null, false);
