@@ -686,7 +686,7 @@ export const getJobByJobNoForIllustrator = async (req, res) => {
        )
        LEFT JOIN users emp ON emp.id = aj.employee_id
        LEFT JOIN users u ON u.id = j.assigned AND u.role_name = 'employee'
-       WHERE j.job_no = ? AND j.company_id = ?`,
+       WHERE j.job_no = ? AND (j.company_id = ? OR j.company_id IS NULL)`,
       [jobNo, tenant_id]
     );
 

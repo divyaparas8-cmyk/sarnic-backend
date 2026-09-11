@@ -30,10 +30,24 @@ app.get("/api/ics-proxy", async (req, res) => {
 });
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:5174", "sarnic-latest-one.netlify.app", "https://project.phoenix-dezign.com", "https://sarnicss.netlify.app"],
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      const allowedOrigins = [
+        "http://localhost:5173",
+        "http://localhost:5174",
+        "https://sarnic-latest-one.netlify.app",
+        "sarnic-latest-one.netlify.app",
+        "https://project.phoenix-dezign.com",
+        "https://sarnicss.netlify.app"
+      ];
+      if (allowedOrigins.includes(origin) || origin === "null" || origin.startsWith("file://")) {
+        return callback(null, true);
+      }
+      return callback(null, false);
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"]
+    allowedHeaders: ["Content-Type", "Authorization", "X-API-Key", "x-api-key"]
   })
 );
 app.use(morgan("dev"));
