@@ -39,7 +39,8 @@ app.use(
         "https://sarnic-latest-one.netlify.app",
         "https://project.phoenix-dezign.com",
         "https://sarnicss.netlify.app",
-        "https://sarnicc.netlify.app"
+        "https://sarnicc.netlify.app",
+        "https://sarniccc.netlify.app"
       ];
       if (allowedOrigins.includes(cleanOrigin) || origin === "null" || origin.startsWith("file://")) {
         return callback(null, true);
