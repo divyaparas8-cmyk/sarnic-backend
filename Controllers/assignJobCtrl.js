@@ -38,14 +38,19 @@ export const createAssignJob = async (req, res) => {
     let assignedLabel = "Unassigned";
 
     // -----------------------------
-    // Assignment logic (UNCHANGED)
+    // Assignment logic
     // -----------------------------
     if (production_id && !employee_id) {
+      admin_status = "in_progress";
       production_status = "in_progress";
+      employee_status = "not_applicable";
       assignedLabel = `${production_id}`;
-    }
-
-    if (employee_id && !production_id) {
+    } else if (employee_id && !production_id) {
+      admin_status = "in_progress";
+      production_status = "in_progress";
+      employee_status = "in_progress";
+      assignedLabel = String(employee_id);
+    } else if (production_id && employee_id) {
       admin_status = "in_progress";
       production_status = "in_progress";
       employee_status = "in_progress";
@@ -78,9 +83,23 @@ export const createAssignJob = async (req, res) => {
         // 2️⃣ UPDATE or INSERT assign_jobs
         // -----------------------------
         if (existing.length > 0) {
-          const finalProductionId = production_id !== undefined ? (production_id || null) : existing[0].production_id;
-          const finalEmployeeId = employee_id !== undefined ? (employee_id || null) : existing[0].employee_id;
-          const finalEmpStatus = employee_id ? "in_progress" : (existing[0].employee_status || employee_status);
+          let finalProductionId = null;
+          let finalEmployeeId = null;
+          let finalEmpStatus = "not_applicable";
+
+          if (production_id && !employee_id) {
+            finalProductionId = Number(production_id);
+            finalEmployeeId = null;
+            finalEmpStatus = "not_applicable";
+          } else if (employee_id && !production_id) {
+            finalEmployeeId = Number(employee_id);
+            finalProductionId = null;
+            finalEmpStatus = "in_progress";
+          } else if (production_id && employee_id) {
+            finalProductionId = Number(production_id);
+            finalEmployeeId = Number(employee_id);
+            finalEmpStatus = "in_progress";
+          }
 
           await connection.query(
             `
